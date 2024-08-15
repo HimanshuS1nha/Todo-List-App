@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <Tabs screenOptions={{ headerShown: false }}>
       <Tabs.Screen
-        name="cending"
+        name="pending"
         options={{
           title: "Pending",
           tabBarIcon: ({ color, size }) => (
