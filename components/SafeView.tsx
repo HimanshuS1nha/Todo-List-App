@@ -20,7 +20,7 @@ const SafeView = ({
         {
           paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#f3f4f6",
         },
         style,
       ]}
