@@ -2,6 +2,7 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import { Entypo, AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
@@ -36,7 +37,10 @@ const Pending = () => {
                 Today&apos;s Task
               </Text>
 
-              <Pressable style={tw`flex-row gap-x-1.5 items-center`}>
+              <Pressable
+                style={tw`flex-row gap-x-1.5 items-center`}
+                onPress={() => router.push("/all-todos")}
+              >
                 <Text style={tw`text-gray-700`}>See All</Text>
                 <Entypo name="chevron-right" size={22} color="gray" />
               </Pressable>
@@ -51,6 +55,7 @@ const Pending = () => {
 
       <Pressable
         style={tw`absolute bg-blue-600 bottom-4 right-4 p-2 rounded-full`}
+        onPress={() => router.push("/add-todo")}
       >
         <AntDesign name="plus" size={28} color="white" />
       </Pressable>
