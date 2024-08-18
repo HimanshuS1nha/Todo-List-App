@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Pressable } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, AntDesign } from "@expo/vector-icons";
 
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
@@ -48,6 +48,12 @@ const Pending = () => {
           </View>
         </View>
       </ScrollView>
+
+      <Pressable
+        style={tw`absolute bg-blue-600 bottom-4 right-4 p-2 rounded-full`}
+      >
+        <AntDesign name="plus" size={28} color="white" />
+      </Pressable>
     </SafeView>
   );
 };
