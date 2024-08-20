@@ -38,6 +38,7 @@ const AddTodo = () => {
         }
       }
 
+      setType(null);
       setShowDatePicker(false);
     },
     [type]
@@ -45,7 +46,7 @@ const AddTodo = () => {
   return (
     <SafeView>
       <Header title="Add Task" />
-      {showDatePicker && (
+      {showDatePicker && type && (
         <DateTimePicker value={new Date()} onChange={handleChangeDate} />
       )}
       <View style={tw`mt-8 gap-y-6 items-center`}>
