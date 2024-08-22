@@ -13,12 +13,10 @@ import UUID from "react-native-uuid";
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
 import { addTodoValidator } from "@/validators/add-todo-validator";
-import { useTodos } from "@/hooks/useTodos";
 
 const AddTodo = () => {
   const db = useSQLiteContext();
   const queryClient = useQueryClient();
-  const { getTodos } = useTodos();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
