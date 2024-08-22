@@ -5,20 +5,12 @@ import tw from "twrnc";
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
 import TodoCard from "@/components/TodoCard";
+import { useTodos } from "@/hooks/useTodos";
 
 const Completed = () => {
-  const dummyTodos = [
-    {
-      title: "Random Task",
-      startDate: "16 August 2024",
-      endDate: "20 August 2024",
-    },
-    {
-      title: "Random Task 2",
-      startDate: "16 August 2024",
-      endDate: "18 August 2024",
-    },
-  ];
+  const { todos } = useTodos();
+
+  const completedTodos = todos.filter((todo) => todo.completed === 1);
   return (
     <SafeView>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -30,7 +22,14 @@ const Completed = () => {
           <Progress />
 
           <View style={tw`w-full gap-y-4`}>
-            {dummyTodos.map((todo) => {
+            {completedTodos.length === 0 && (
+              <Text
+                style={tw`text-rose-600 font-semibold text-base text-center`}
+              >
+                No Data to show.
+              </Text>
+            )}
+            {completedTodos.map((todo) => {
               return <TodoCard key={todo.title} todo={todo} />;
             })}
           </View>

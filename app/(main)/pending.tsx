@@ -11,6 +11,10 @@ import { useTodos } from "@/hooks/useTodos";
 
 const Pending = () => {
   const { todos } = useTodos();
+
+  const todayTodos = todos.filter(
+    (todo) => todo.startDate === new Date().toDateString()
+  );
   return (
     <SafeView>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -36,11 +40,17 @@ const Pending = () => {
               </Pressable>
             </View>
 
-            {todos
-              .filter((todo) => todo.startDate === new Date().toDateString())
-              .map((todo) => {
-                return <TodoCard key={todo.id} todo={todo} />;
-              })}
+            {todayTodos.length === 0 && (
+              <Text
+                style={tw`text-rose-600 font-semibold text-base text-center`}
+              >
+                No Data to show.
+              </Text>
+            )}
+
+            {todayTodos.map((todo) => {
+              return <TodoCard key={todo.id} todo={todo} />;
+            })}
           </View>
         </View>
       </ScrollView>

@@ -14,6 +14,11 @@ const AllTodos = () => {
       <Header title="All Tasks" />
 
       <ScrollView contentContainerStyle={tw`px-4 gap-y-4`}>
+        {todos.length === 0 && (
+          <Text style={tw`text-rose-600 font-semibold text-base text-center`}>
+            No Data to show.
+          </Text>
+        )}
         {todos.map((todo) => {
           return <TodoCard key={todo.title} todo={todo} />;
         })}
