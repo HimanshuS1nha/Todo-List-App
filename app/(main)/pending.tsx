@@ -7,20 +7,10 @@ import { router } from "expo-router";
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
 import TodoCard from "@/components/TodoCard";
+import { useTodos } from "@/hooks/useTodos";
 
 const Pending = () => {
-  const dummyTodos = [
-    {
-      title: "Random Task",
-      startDate: "16 August 2024",
-      endDate: "20 August 2024",
-    },
-    {
-      title: "Random Task 2",
-      startDate: "16 August 2024",
-      endDate: "18 August 2024",
-    },
-  ];
+  const { todos } = useTodos();
   return (
     <SafeView>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -46,9 +36,11 @@ const Pending = () => {
               </Pressable>
             </View>
 
-            {dummyTodos.map((todo) => {
-              return <TodoCard key={todo.title} todo={todo} />;
-            })}
+            {todos
+              .filter((todo) => todo.startDate === new Date().toDateString())
+              .map((todo) => {
+                return <TodoCard key={todo.title} todo={todo} />;
+              })}
           </View>
         </View>
       </ScrollView>

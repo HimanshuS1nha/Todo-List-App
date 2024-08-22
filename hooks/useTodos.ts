@@ -7,7 +7,7 @@ type TodoType = {
   descrption: string;
   startDate: string;
   endDate: string;
-  completed: boolean;
+  completed: 0 | 1;
 };
 
 type UseTodosType = {
