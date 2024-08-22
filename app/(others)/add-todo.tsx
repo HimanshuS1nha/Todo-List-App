@@ -13,10 +13,12 @@ import UUID from "react-native-uuid";
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
 import { addTodoValidator } from "@/validators/add-todo-validator";
+import { useTodos } from "@/hooks/useTodos";
 
 const AddTodo = () => {
   const db = useSQLiteContext();
   const queryClient = useQueryClient();
+  const { getTodos } = useTodos();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -62,7 +64,7 @@ const AddTodo = () => {
         endDate,
       });
 
-      if (startDate > endDate) {
+      if (new Date(startDate) > new Date(endDate)) {
         throw new Error("Start Date cannot be greater than end date");
       }
 
@@ -85,7 +87,11 @@ const AddTodo = () => {
       return newNote;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["get-todos"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["get-todos"],
+        exact: true,
+        refetchType: "active",
+      });
       Alert.alert("Success", "Task added successfully");
       setTitle("");
       setDescription("");
@@ -93,10 +99,11 @@ const AddTodo = () => {
       setEndDate("");
     },
     onError: (error) => {
+      console.log(error);
       if (error instanceof ZodError) {
         Alert.alert("Error", error.errors[0].message);
       } else {
-        Alert.alert("Error", "Some error occured. Please try again latr!");
+        Alert.alert("Error", "Some error occured. Please try again later!");
       }
     },
   });
