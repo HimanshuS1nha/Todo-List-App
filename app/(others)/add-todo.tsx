@@ -5,7 +5,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { ZodError } from "zod";
 import UUID from "react-native-uuid";
@@ -16,6 +16,7 @@ import { addTodoValidator } from "@/validators/add-todo-validator";
 
 const AddTodo = () => {
   const db = useSQLiteContext();
+  const queryClient = useQueryClient();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -61,6 +62,10 @@ const AddTodo = () => {
         endDate,
       });
 
+      if (startDate > endDate) {
+        throw new Error("Start Date cannot be greater than end date");
+      }
+
       const newNote = {
         id: UUID.v4().toString(),
         ...parsedData,
@@ -79,7 +84,8 @@ const AddTodo = () => {
 
       return newNote;
     },
-    onSuccess: (data) => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["get-todos"] });
       Alert.alert("Success", "Task added successfully");
       setTitle("");
       setDescription("");
@@ -87,8 +93,10 @@ const AddTodo = () => {
       setEndDate("");
     },
     onError: (error) => {
-      if (error instanceof Error) {
-        Alert.alert("Error", "Please fill in all the fields");
+      if (error instanceof ZodError) {
+        Alert.alert("Error", error.errors[0].message);
+      } else {
+        Alert.alert("Error", "Some error occured. Please try again latr!");
       }
     },
   });
