@@ -39,7 +39,7 @@ const Pending = () => {
             {todos
               .filter((todo) => todo.startDate === new Date().toDateString())
               .map((todo) => {
-                return <TodoCard key={todo.title} todo={todo} />;
+                return <TodoCard key={todo.id} todo={todo} />;
               })}
           </View>
         </View>
