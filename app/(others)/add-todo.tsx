@@ -1,15 +1,22 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, TextInput, Pressable, Alert } from "react-native";
 import React, { useState, useCallback } from "react";
 import tw from "twrnc";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useMutation } from "@tanstack/react-query";
+import { useSQLiteContext } from "expo-sqlite";
+import { ZodError } from "zod";
+import UUID from "react-native-uuid";
 
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
+import { addTodoValidator } from "@/validators/add-todo-validator";
 
 const AddTodo = () => {
+  const db = useSQLiteContext();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -43,11 +50,57 @@ const AddTodo = () => {
     },
     [type]
   );
+
+  const { mutate: handleAddTodo, isPending } = useMutation({
+    mutationKey: ["add-todo"],
+    mutationFn: async () => {
+      const parsedData = await addTodoValidator.parseAsync({
+        title,
+        description,
+        startDate,
+        endDate,
+      });
+
+      const newNote = {
+        id: UUID.v4().toString(),
+        ...parsedData,
+        completed: 0,
+      };
+
+      await db.runAsync(
+        "INSERT INTO todos values (?,?,?,?,?,?)",
+        newNote.id,
+        title,
+        newNote.description!,
+        newNote.startDate,
+        newNote.endDate,
+        0
+      );
+
+      return newNote;
+    },
+    onSuccess: (data) => {
+      Alert.alert("Success", "Task added successfully");
+      setTitle("");
+      setDescription("");
+      setStartDate("");
+      setEndDate("");
+    },
+    onError: (error) => {
+      if (error instanceof Error) {
+        Alert.alert("Error", "Please fill in all the fields");
+      }
+    },
+  });
   return (
     <SafeView>
       <Header title="Add Task" />
       {showDatePicker && type && (
-        <DateTimePicker value={new Date()} onChange={handleChangeDate} />
+        <DateTimePicker
+          mode="date"
+          value={new Date()}
+          onChange={handleChangeDate}
+        />
       )}
       <View style={tw`mt-8 gap-y-6 items-center`}>
         <View style={tw`gap-y-3 w-[85%]`}>
@@ -110,9 +163,15 @@ const AddTodo = () => {
         </View>
 
         <Pressable
-          style={tw`w-[85%] bg-blue-600 items-center justify-center py-3.5 rounded-xl`}
+          style={tw`w-[85%] ${
+            isPending ? "bg-blue-300" : "bg-blue-600"
+          } items-center justify-center py-3.5 rounded-xl`}
+          onPress={() => handleAddTodo()}
+          disabled={isPending}
         >
-          <Text style={tw`text-lg font-semibold text-white`}>Add</Text>
+          <Text style={tw`text-lg font-semibold text-white`}>
+            {isPending ? "Please wait..." : "Add"}
+          </Text>
         </Pressable>
       </View>
     </SafeView>
