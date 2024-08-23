@@ -6,7 +6,6 @@ import { useTodos } from "@/hooks/useTodos";
 const Progress = () => {
   const { todos } = useTodos();
 
-  const pendingTodos = todos.filter((todo) => todo.completed === 0);
   const completedTodos = todos.filter((todo) => todo.completed === 1);
   return (
     <View style={tw`bg-blue-600 w-full p-5 rounded-lg gap-y-4`}>
