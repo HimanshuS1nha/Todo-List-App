@@ -4,7 +4,7 @@ import { create } from "zustand";
 export type TodoType = {
   id: string;
   title: string;
-  descrption: string;
+  description: string;
   startDate: string;
   endDate: string;
   completed: 0 | 1;
