@@ -46,6 +46,7 @@ const AddTodo = () => {
 
   const handleChangeDate = useCallback(
     (event: DateTimePickerEvent, date?: Date) => {
+      setShowDatePicker(false);
       if (event.type === "set") {
         if (type === "start" && date) {
           setStartDate(date.toDateString());
@@ -53,9 +54,6 @@ const AddTodo = () => {
           setEndDate(date.toDateString());
         }
       }
-
-      setType(null);
-      setShowDatePicker(false);
     },
     [type]
   );

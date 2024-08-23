@@ -107,27 +107,29 @@ const Todo = () => {
       <View style={tw`gap-y-6 px-5 mt-8`}>
         <View style={tw`flex-row justify-between items-center`}>
           <Text style={tw`text-4xl font-bold`}>{todo?.title}</Text>
-          <Pressable
-            onPress={() => {
-              Alert.alert(
-                "Warning",
-                "Do you want to mark this task as completed?",
-                [
-                  {
-                    text: "No",
-                  },
-                  {
-                    text: "Yes",
-                    onPress: async () => {
-                      await handleMarkAsCompleted();
+          {todo?.completed === 0 && (
+            <Pressable
+              onPress={() => {
+                Alert.alert(
+                  "Warning",
+                  "Do you want to mark this task as completed?",
+                  [
+                    {
+                      text: "No",
                     },
-                  },
-                ]
-              );
-            }}
-          >
-            <Ionicons name="checkmark-done-circle" size={26} color={"blue"} />
-          </Pressable>
+                    {
+                      text: "Yes",
+                      onPress: async () => {
+                        await handleMarkAsCompleted();
+                      },
+                    },
+                  ]
+                );
+              }}
+            >
+              <Ionicons name="checkmark-done-circle" size={26} color={"blue"} />
+            </Pressable>
+          )}
         </View>
 
         <Text style={tw`text-base leading-7 text-justify`}>
