@@ -22,7 +22,7 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
   }, []);
   return (
     <Pressable
-      style={tw`p-4 bg-white border border-gray-300 rounded-xl flex-row justify-between items-center shadow-lg shadow-gray-300`}
+      style={tw`p-4 bg-white border border-gray-300 rounded-xl flex-row justify-between items-center shadow-lg shadow-gray-300 mb-4`}
       onPress={handlePress}
     >
       <View style={tw`gap-y-1.5`}>

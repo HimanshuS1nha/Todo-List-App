@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, TextInput } from "react-native";
 import React, { useCallback, useState } from "react";
 import tw from "twrnc";
+import { FlashList } from "@shopify/flash-list";
 
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
@@ -42,16 +43,23 @@ const AllTodos = () => {
         />
       </View>
 
-      <ScrollView contentContainerStyle={tw`px-4 gap-y-4`}>
+      <View style={tw`h-full px-4`}>
         {filteredTodos.length === 0 && (
           <Text style={tw`text-rose-600 font-semibold text-base text-center`}>
             No Data to show.
           </Text>
         )}
-        {filteredTodos.map((todo) => {
-          return <TodoCard key={todo.title} todo={todo} />;
-        })}
-      </ScrollView>
+
+        <FlashList
+          data={filteredTodos}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return <TodoCard todo={item} />;
+          }}
+          estimatedItemSize={50}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </SafeView>
   );
 };

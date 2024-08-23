@@ -12,7 +12,7 @@ const Progress = () => {
     <View style={tw`bg-blue-600 w-full p-5 rounded-lg gap-y-4`}>
       <View style={tw`gap-y-2`}>
         <Text style={tw`text-white text-xl font-medium`}>
-          Today&apos;s task progress
+          Total tasks progress
         </Text>
         <Text style={tw`text-white`}>
           {completedTodos.length}/{todos.length} completed

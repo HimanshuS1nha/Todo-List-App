@@ -3,6 +3,7 @@ import React from "react";
 import tw from "twrnc";
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
 
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
@@ -13,7 +14,8 @@ const Pending = () => {
   const { todos } = useTodos();
 
   const todayTodos = todos.filter(
-    (todo) => todo.startDate === new Date().toDateString()
+    (todo) =>
+      todo.startDate === new Date().toDateString() && todo.completed === 0
   );
   return (
     <SafeView>
@@ -25,7 +27,7 @@ const Pending = () => {
         <View style={tw`items-center px-4 mt-8 gap-y-8`}>
           <Progress />
 
-          <View style={tw`w-full gap-y-4`}>
+          <View style={tw`w-full gap-y-4 h-full`}>
             <View style={tw`flex-row justify-between items-center`}>
               <Text style={tw`text-blue-900 font-semibold text-2xl`}>
                 Today&apos;s Task
@@ -48,9 +50,15 @@ const Pending = () => {
               </Text>
             )}
 
-            {todayTodos.map((todo) => {
-              return <TodoCard key={todo.id} todo={todo} />;
-            })}
+            <FlashList
+              data={todayTodos}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return <TodoCard todo={item} />;
+              }}
+              estimatedItemSize={50}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </View>
       </ScrollView>

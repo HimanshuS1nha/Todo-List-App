@@ -1,6 +1,7 @@
 import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import tw from "twrnc";
+import { FlashList } from "@shopify/flash-list";
 
 import SafeView from "@/components/SafeView";
 import Progress from "@/components/Progress";
@@ -21,7 +22,7 @@ const Completed = () => {
         <View style={tw`w-full items-center px-4 mt-8 gap-y-8`}>
           <Progress />
 
-          <View style={tw`w-full gap-y-4`}>
+          <View style={tw`w-full h-full`}>
             {completedTodos.length === 0 && (
               <Text
                 style={tw`text-rose-600 font-semibold text-base text-center`}
@@ -29,9 +30,15 @@ const Completed = () => {
                 No Data to show.
               </Text>
             )}
-            {completedTodos.map((todo) => {
-              return <TodoCard key={todo.title} todo={todo} />;
-            })}
+            <FlashList
+              data={completedTodos}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => {
+                return <TodoCard todo={item} />;
+              }}
+              estimatedItemSize={50}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
         </View>
       </ScrollView>
