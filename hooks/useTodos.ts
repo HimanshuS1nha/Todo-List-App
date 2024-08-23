@@ -1,7 +1,7 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { create } from "zustand";
 
-type TodoType = {
+export type TodoType = {
   id: string;
   title: string;
   descrption: string;
