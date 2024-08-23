@@ -19,7 +19,7 @@ import UUID from "react-native-uuid";
 
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
-import { addTodoValidator } from "@/validators/add-todo-validator";
+import { todoValidator } from "@/validators/todo-validator";
 import { useTodos } from "@/hooks/useTodos";
 
 const AddTodo = () => {
@@ -61,7 +61,7 @@ const AddTodo = () => {
   const { mutate: handleAddTodo, isPending } = useMutation({
     mutationKey: ["add-todo"],
     mutationFn: async () => {
-      const parsedData = await addTodoValidator.parseAsync({
+      const parsedData = await todoValidator.parseAsync({
         title,
         description,
         startDate,
@@ -99,11 +99,10 @@ const AddTodo = () => {
       setEndDate("");
     },
     onError: (error) => {
-      console.log(error);
       if (error instanceof ZodError) {
         Alert.alert("Error", error.errors[0].message);
       } else {
-        Alert.alert("Error", "Some error occured. Please try again later!");
+        Alert.alert("Error", error.message);
       }
     },
   });

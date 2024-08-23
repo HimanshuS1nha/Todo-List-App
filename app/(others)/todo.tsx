@@ -56,7 +56,7 @@ const Todo = () => {
     mutationKey: [`mark-as-complete-${todo?.id}`],
     mutationFn: async () => {
       await db.runAsync(
-        "UPDATE todos set completed = 1 where id = ?",
+        "UPDATE todos SET completed = 1 where id = ?",
         todo!.id
       );
 
@@ -83,7 +83,9 @@ const Todo = () => {
         </Pressable>
 
         <View style={tw`flex-row gap-x-4 items-center`}>
-          <MaterialIcons name="edit" size={26} color="black" />
+          <Pressable onPress={() => router.push("/edit-todo")}>
+            <MaterialIcons name="edit" size={26} color="black" />
+          </Pressable>
           <Pressable
             onPress={() => {
               Alert.alert("Warning", "Do you want to delete this todo?", [
