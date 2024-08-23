@@ -26,11 +26,11 @@ const TodoCard = ({ todo }: { todo: TodoType }) => {
       onPress={handlePress}
     >
       <View style={tw`gap-y-1.5`}>
-        <Text style={tw`text-lg font-semibold`}>{todo.title}</Text>
+        <Text style={tw`text-lg font-semibold`}>{todo?.title}</Text>
         <View style={tw`flex-row gap-x-3 items-center`}>
           <FontAwesome5 name="calendar-alt" size={17} color="gray" />
           <Text style={tw`text-gray-700`}>
-            {parseDate(todo.startDate)} - {parseDate(todo.endDate)}
+            {parseDate(todo?.startDate)} - {parseDate(todo?.endDate)}
           </Text>
         </View>
       </View>

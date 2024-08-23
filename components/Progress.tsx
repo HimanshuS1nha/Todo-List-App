@@ -27,9 +27,7 @@ const Progress = () => {
             style={[
               tw`bg-white h-1.5 rounded-l-xl`,
               {
-                width: `${
-                  (completedTodos.length * 100) / pendingTodos.length
-                }%`,
+                width: `${(completedTodos.length * 100) / todos.length}%`,
               },
             ]}
           />
@@ -37,16 +35,14 @@ const Progress = () => {
             style={[
               tw`bg-gray-400 h-1.5 rounded-l-xl`,
               {
-                width: `${
-                  100 - (completedTodos.length * 100) / pendingTodos.length
-                }%`,
+                width: `${100 - (completedTodos.length * 100) / todos.length}%`,
               },
             ]}
           />
         </View>
 
         <Text style={tw`text-white font-bold`}>
-          {(completedTodos.length * 100) / pendingTodos.length}%
+          {(completedTodos.length * 100) / todos.length}%
         </Text>
       </View>
     </View>

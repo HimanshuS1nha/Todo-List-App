@@ -1,11 +1,18 @@
-import { View, Text, TextInput, Pressable, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React, { useState, useCallback } from "react";
 import tw from "twrnc";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { ZodError } from "zod";
 import UUID from "react-native-uuid";
@@ -13,10 +20,11 @@ import UUID from "react-native-uuid";
 import SafeView from "@/components/SafeView";
 import Header from "@/components/Header";
 import { addTodoValidator } from "@/validators/add-todo-validator";
+import { useTodos } from "@/hooks/useTodos";
 
 const AddTodo = () => {
   const db = useSQLiteContext();
-  const queryClient = useQueryClient();
+  const { getTodos } = useTodos();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -85,11 +93,7 @@ const AddTodo = () => {
       return newNote;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["get-todos"],
-        exact: true,
-        refetchType: "active",
-      });
+      await getTodos(db);
       Alert.alert("Success", "Task added successfully");
       setTitle("");
       setDescription("");
@@ -115,7 +119,10 @@ const AddTodo = () => {
           onChange={handleChangeDate}
         />
       )}
-      <View style={tw`mt-8 gap-y-6 items-center`}>
+      <ScrollView
+        contentContainerStyle={tw`mt-8 gap-y-6 items-center`}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={tw`gap-y-3 w-[85%]`}>
           <Text style={tw`text-base font-medium ml-1.5`}>Title</Text>
           <TextInput
@@ -186,7 +193,7 @@ const AddTodo = () => {
             {isPending ? "Please wait..." : "Add"}
           </Text>
         </Pressable>
-      </View>
+      </ScrollView>
     </SafeView>
   );
 };
