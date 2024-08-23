@@ -1,9 +1,11 @@
 import { router, useRootNavigationState } from "expo-router";
 import { useEffect } from "react";
-import { Text, View } from "react-native";
+import { View, Text, ActivityIndicator, Image } from "react-native";
+import tw from "twrnc";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 
+import SafeView from "@/components/SafeView";
 import { useTodos } from "@/hooks/useTodos";
 
 export default function Index() {
@@ -24,14 +26,15 @@ export default function Index() {
     }
   }, [rootNavigationState?.key, data]);
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeView style={tw`items-center justify-center gap-y-12`}>
+      <View style={tw`gap-y-4 items-center`}>
+        <Image
+          source={require("../assets/images/logo.png")}
+          style={tw`w-36 h-36 rounded-full`}
+        />
+        <Text style={tw`font-bold text-3xl`}>Todo List</Text>
+      </View>
+      <ActivityIndicator size={45} color={"blue"} />
+    </SafeView>
   );
 }
