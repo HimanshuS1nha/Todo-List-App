@@ -15,7 +15,9 @@ const Pending = () => {
 
   const todayTodos = todos.filter(
     (todo) =>
-      todo.startDate === new Date().toDateString() && todo.completed === 0
+      (todo.startDate === new Date().toDateString() ||
+        todo.endDate === new Date().toDateString()) &&
+      todo.completed === 0
   );
   return (
     <SafeView>
