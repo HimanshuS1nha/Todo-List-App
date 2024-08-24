@@ -67,7 +67,9 @@ const Todo = () => {
       Alert.alert("Success", "Marked as completed", [
         {
           text: "Ok",
-          onPress: handleBack,
+          onPress: () => {
+            setTodo({ ...todo!, completed: 1 });
+          },
         },
       ]);
     },
