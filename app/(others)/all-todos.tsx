@@ -11,15 +11,17 @@ import { useTodos } from "@/hooks/useTodos";
 const AllTodos = () => {
   const { todos } = useTodos();
 
-  const [filteredTodos, setFilteredTodos] = useState(todos);
+  const [filteredTodos, setFilteredTodos] = useState(
+    todos.filter((todo) => todo.completed === 0)
+  );
 
   const filterTodos = useCallback(
     (searchQuery: string) => {
       if (searchQuery === "") {
-        if (filteredTodos === todos) {
+        if (filteredTodos === todos.filter((todo) => todo.completed === 0)) {
           return;
         } else {
-          return setFilteredTodos(todos);
+          return setFilteredTodos(todos.filter((todo) => todo.completed === 0));
         }
       }
 
@@ -33,12 +35,12 @@ const AllTodos = () => {
   );
 
   useEffect(() => {
-    setFilteredTodos(todos);
+    setFilteredTodos(todos.filter((todo) => todo.completed === 0));
   }, [todos]);
 
   return (
     <SafeView>
-      <Header title="All Tasks" />
+      <Header title="All Pending Tasks" />
 
       <View style={tw`items-center mb-6`}>
         <TextInput
