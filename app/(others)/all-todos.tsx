@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, TextInput } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import tw from "twrnc";
 import { FlashList } from "@shopify/flash-list";
 
@@ -31,6 +31,11 @@ const AllTodos = () => {
     },
     [todos, filteredTodos]
   );
+
+  useEffect(() => {
+    setFilteredTodos(todos);
+  }, [todos]);
+
   return (
     <SafeView>
       <Header title="All Tasks" />
@@ -46,7 +51,7 @@ const AllTodos = () => {
       <View style={tw`h-full px-4`}>
         {filteredTodos.length === 0 && (
           <Text style={tw`text-rose-600 font-semibold text-base text-center`}>
-            No Data to show.
+            No data to show.
           </Text>
         )}
 

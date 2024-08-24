@@ -35,14 +35,18 @@ const Progress = () => {
             style={[
               tw`bg-gray-400 h-1.5 rounded-l-xl`,
               {
-                width: `${100 - (completedTodos.length * 100) / todos.length}%`,
+                width: `${
+                  todos.length > 0
+                    ? 100 - (completedTodos.length * 100) / todos.length
+                    : 100
+                }%`,
               },
             ]}
           />
         </View>
 
         <Text style={tw`text-white font-bold`}>
-          {(completedTodos.length * 100) / todos.length}%
+          {todos.length > 0 ? (completedTodos.length * 100) / todos.length : 0}%
         </Text>
       </View>
     </View>

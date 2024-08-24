@@ -40,7 +40,7 @@ const Todo = () => {
     },
     onSuccess: async () => {
       await getTodos(db);
-      Alert.alert("Success", "Task delete successfully", [
+      Alert.alert("Success", "Task deleted successfully", [
         {
           text: "Ok",
           onPress: handleBack,

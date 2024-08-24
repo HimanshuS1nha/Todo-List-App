@@ -27,7 +27,7 @@ const Completed = () => {
               <Text
                 style={tw`text-rose-600 font-semibold text-base text-center`}
               >
-                No Data to show.
+                No data to show.
               </Text>
             )}
             <FlashList
