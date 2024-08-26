@@ -38,7 +38,7 @@ Stay organized and boost productivity with this intuitive Todo List app. Seamles
 
 ## Demo
 
-Live Demo - Coming Soon
+Live Demo - [Click Here](https://www.youtube.com/shorts/Fszj3was8rY)
 
 ## 🚀 About Me
 
